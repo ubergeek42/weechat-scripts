@@ -76,7 +76,7 @@ settings = {
 # Timestamp for the last update
 last_run = 0
 
-# The last city, language and format for the need of refresh
+# The last city and format for the need of refresh
 last_city = ''
 last_format = ''
 
@@ -145,7 +145,7 @@ def yweather_data_cb(data, command, rc, stdout, stderr):
     '''
     Callback for the data fetching process.
     '''
-    global last_city, last_lang, last_run, last_format
+    global last_city, last_run, last_format
     global yweather_hook_process, yweather_stdout, yweather_output
 
     if rc == weechat.WEECHAT_HOOK_PROCESS_ERROR or stderr != '':
@@ -163,7 +163,6 @@ def yweather_data_cb(data, command, rc, stdout, stderr):
     # Update status variables for succesful run
     last_run = time()
     last_city = weechat.config_get_plugin('city')
-    last_lang = weechat.config_get_plugin('language')
     last_format = weechat.config_get_plugin('format')
     yweather_hook_process = ''
 
@@ -208,10 +207,6 @@ def yweather_cb(*kwargs):
     # Nag if user has not specified the city
     if not weechat.config_get_plugin('city'):
         return 'SET CITY'
-
-    # Nag if user has not specified the language
-    if not weechat.config_get_plugin('language'):
-        return 'SET LANGUAGE'
 
     # Use cached copy if it is updated recently enough
     if weechat.config_get_plugin('city') == last_city and \
